@@ -1,0 +1,42 @@
+Seans Optimized Code Report
+Sean N. Bird
+snbbrbrd@gwmail.gwu.edu
+Project 5
+
+my_rotate:
+
+    For the my_rotate function, I performed loop unfolding 32 times of the initial given operation for the dst and src matrix.
+    Incrementing the outer for loop of j by 32, because we are given the assumption that the dimension size N will always be 
+    a multiple of 32, I then added 32 lines of code inside the inner i for loop which set each subsequent swapped value of the src matrix's 
+    i value with dim-1-j, incrementing the middle integer up to 32, until j is appended again in the outer for loop.  In addition, I had to 
+    remember to append the src matrix's j value, for every value decremented in dst matrix's i value.  This decreased run time considerably for my_rotate.
+    
+my_smooth:
+
+    I changed 3 aspects of the my_smooth function.  First, I condensed the operations of the avg function, including its calls to initialize_pixel, accumulate_sum, 
+    and assign_sum_to_pixel, all inside of my_smooth. This reduces the time by eleminating uneceassry function calls.  I then make a srcPtr which equals the address 
+    of the src matrix, which decreased the time it takes to assign its color values to the pixel_sum sum. Then, the last change I made was moved the macro operations of 
+    maximum and minimum inside of the innermost two for loops of my_smooth.  Maximum and minimum were called a considerable amount of times in native, being inside of 2 
+    for loops already, so that decreased function timing by almost 50%. 
+    
+The following is the most recent table of the kernals performance results:
+
+Testing Rotate:
+          Time in milliseconds      Cycles used  
+==========================================================
+Dimension naive_rotate my_rotate    naive_rotate my_rotate    
+==========================================================
+512       2000         1200         5627377      3446748      
+1024      29400        12120        114634496    31155287     
+2048      162140       55612        583421868    223242842    
+4096      879014       217961       3293175128   819942417    
+
+Testing Smooth:
+          Time in milliseconds      Cycles used  
+==========================================================
+Dimension naive_smooth my_smooth    naive_smooth my_smooth    
+==========================================================
+256       11200        5600         29634303     54552832     
+512       57120        33360        190643388    130109169    
+1024      264512       164136       968013424    628835535    
+2048      1356851      957213       5110974543   3580633310  
